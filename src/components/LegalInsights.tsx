@@ -14,7 +14,7 @@ export const LegalInsights: React.FC<LegalInsightsProps> = ({
   onOpenSettlementModal,
 }) => {
   return (
-    <div className="bg-white rounded-xl border border-slate-200/90 p-4 sm:p-5 shadow-xs space-y-4">
+    <div data-tour="legal-insights" className="bg-white rounded-xl border border-slate-200/90 p-4 sm:p-5 shadow-xs space-y-4">
       <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
         <div className="flex items-center space-x-2">
           <div className="p-1.5 bg-emerald-100 text-emerald-800 rounded-lg">

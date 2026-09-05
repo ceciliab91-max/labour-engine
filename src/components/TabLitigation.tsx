@@ -19,7 +19,10 @@ export const TabLitigation: React.FC<TabLitigationProps> = ({
   return (
     <div className="space-y-8">
       {/* Banner Top Summary for Disputes */}
-      <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-sm border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div
+        data-tour="litigation-banner"
+        className="bg-slate-900 text-white rounded-2xl p-6 shadow-sm border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4"
+      >
         <div className="space-y-1">
           <div className="flex items-center space-x-2">
             <span className="p-1.5 bg-rose-500/20 text-rose-400 rounded-xl">
@@ -44,7 +47,7 @@ export const TabLitigation: React.FC<TabLitigationProps> = ({
       </div>
 
       {/* Grid 2-Columns for Litigation Tools */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div data-tour="litigation-tools" className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Level Gap & Legal Notes (6 cols) */}
         <div className="lg:col-span-6 space-y-8">
           {/* Level Gap & Back-Pay Card */}

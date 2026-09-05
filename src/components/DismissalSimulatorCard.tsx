@@ -44,112 +44,114 @@ export const DismissalSimulatorCard: React.FC<DismissalSimulatorCardProps> = ({
 
       {/* Controls */}
       <div className="p-4 sm:p-5 space-y-4 text-xs text-slate-800">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          {/* Regime Assunzione */}
-          <div>
-            <label className="block font-bold text-slate-700 mb-1">Data di Assunzione</label>
-            <div className="grid grid-cols-2 gap-2 text-xs font-medium">
-              <button
-                type="button"
-                onClick={() => setInputs({ ...inputs, hiringEra: 'post_2015' })}
-                className={`py-2 px-2 rounded-lg border text-center transition-all cursor-pointer ${
-                  inputs.hiringEra === 'post_2015'
-                    ? 'bg-rose-50 border-rose-300 text-rose-900 font-bold shadow-xs'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                }`}
-              >
-                Post 7/3/2015 (Jobs Act)
-              </button>
-              <button
-                type="button"
-                onClick={() => setInputs({ ...inputs, hiringEra: 'pre_2015' })}
-                className={`py-2 px-2 rounded-lg border text-center transition-all cursor-pointer ${
-                  inputs.hiringEra === 'pre_2015'
-                    ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                }`}
-              >
-                Ante 7/3/2015 (Art. 18)
-              </button>
+        <div data-tour="dismissal-parameters" className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            {/* Regime Assunzione */}
+            <div>
+              <label className="block font-bold text-slate-700 mb-1">Data di Assunzione</label>
+              <div className="grid grid-cols-2 gap-2 text-xs font-medium">
+                <button
+                  type="button"
+                  onClick={() => setInputs({ ...inputs, hiringEra: 'post_2015' })}
+                  className={`py-2 px-2 rounded-lg border text-center transition-all cursor-pointer ${
+                    inputs.hiringEra === 'post_2015'
+                      ? 'bg-rose-50 border-rose-300 text-rose-900 font-bold shadow-xs'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  Post 7/3/2015 (Jobs Act)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInputs({ ...inputs, hiringEra: 'pre_2015' })}
+                  className={`py-2 px-2 rounded-lg border text-center transition-all cursor-pointer ${
+                    inputs.hiringEra === 'pre_2015'
+                      ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  Ante 7/3/2015 (Art. 18)
+                </button>
+              </div>
+            </div>
+
+            {/* Dimensione Aziendale */}
+            <div>
+              <label className="block font-bold text-slate-700 mb-1">Dimensione Aziendale</label>
+              <div className="grid grid-cols-2 gap-2 text-xs font-medium">
+                <button
+                  type="button"
+                  onClick={() => setInputs({ ...inputs, companySize: 'large' })}
+                  className={`py-2 px-2 rounded-lg border text-center transition-all cursor-pointer ${
+                    inputs.companySize === 'large'
+                      ? 'bg-indigo-50 border-indigo-300 text-indigo-900 font-bold shadow-xs'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  &gt; 15 Dip. (Grandi Imprese)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInputs({ ...inputs, companySize: 'small' })}
+                  className={`py-2 px-2 rounded-lg border text-center transition-all cursor-pointer ${
+                    inputs.companySize === 'small'
+                      ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold shadow-xs'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  ≤ 15 Dip. (Piccole Imprese)
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Dimensione Aziendale */}
-          <div>
-            <label className="block font-bold text-slate-700 mb-1">Dimensione Aziendale</label>
-            <div className="grid grid-cols-2 gap-2 text-xs font-medium">
-              <button
-                type="button"
-                onClick={() => setInputs({ ...inputs, companySize: 'large' })}
-                className={`py-2 px-2 rounded-lg border text-center transition-all cursor-pointer ${
-                  inputs.companySize === 'large'
-                    ? 'bg-indigo-50 border-indigo-300 text-indigo-900 font-bold shadow-xs'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                }`}
-              >
-                &gt; 15 Dip. (Grandi Imprese)
-              </button>
-              <button
-                type="button"
-                onClick={() => setInputs({ ...inputs, companySize: 'small' })}
-                className={`py-2 px-2 rounded-lg border text-center transition-all cursor-pointer ${
-                  inputs.companySize === 'small'
-                    ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold shadow-xs'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                }`}
-              >
-                ≤ 15 Dip. (Piccole Imprese)
-              </button>
+          {/* Anzianità e Preavviso */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label className="block font-semibold text-slate-600 mb-1">Anzianità di Servizio (Anni)</label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="number"
+                  min={0}
+                  max={40}
+                  value={inputs.seniorityYears}
+                  onChange={(e) => setInputs({ ...inputs, seniorityYears: Math.max(0, Number(e.target.value) || 0) })}
+                  className="w-full text-xs font-bold font-mono py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-rose-500"
+                />
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Anzianità e Preavviso */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label className="block font-semibold text-slate-600 mb-1">Anzianità di Servizio (Anni)</label>
-            <div className="flex items-center space-x-2">
+            <div>
+              <label className="block font-semibold text-slate-600 mb-1">Preavviso CCNL (Mesi)</label>
+              <select
+                value={inputs.noticeMonths}
+                onChange={(e) => setInputs({ ...inputs, noticeMonths: Number(e.target.value) || 0 })}
+                className="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-rose-500 cursor-pointer"
+              >
+                <option value={0}>0 Mesi Preavviso</option>
+                <option value={1}>1 Mese Preavviso</option>
+                <option value={2}>2 Mesi Preavviso</option>
+                <option value={3}>3 Mesi Preavviso</option>
+                <option value={4}>4 Mesi Preavviso</option>
+                <option value={6}>6 Mesi Preavviso</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block font-semibold text-slate-600 mb-1">Retribuzione Mensile Utile (€)</label>
               <input
                 type="number"
-                min={0}
-                max={40}
-                value={inputs.seniorityYears}
-                onChange={(e) => setInputs({ ...inputs, seniorityYears: Math.max(0, Number(e.target.value) || 0) })}
-                className="w-full text-xs font-bold font-mono py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-rose-500"
+                step={100}
+                value={Math.round(result.monthlyBaseSalary)}
+                onChange={(e) => setInputs({ ...inputs, customMonthlySalary: Number(e.target.value) || 0 })}
+                className="w-full text-xs font-bold font-mono py-2 px-3 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-rose-500"
               />
             </div>
-          </div>
-
-          <div>
-            <label className="block font-semibold text-slate-600 mb-1">Preavviso CCNL (Mesi)</label>
-            <select
-              value={inputs.noticeMonths}
-              onChange={(e) => setInputs({ ...inputs, noticeMonths: Number(e.target.value) || 0 })}
-              className="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-rose-500 cursor-pointer"
-            >
-              <option value={0}>0 Mesi Preavviso</option>
-              <option value={1}>1 Mese Preavviso</option>
-              <option value={2}>2 Mesi Preavviso</option>
-              <option value={3}>3 Mesi Preavviso</option>
-              <option value={4}>4 Mesi Preavviso</option>
-              <option value={6}>6 Mesi Preavviso</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block font-semibold text-slate-600 mb-1">Retribuzione Mensile Utile (€)</label>
-            <input
-              type="number"
-              step={100}
-              value={Math.round(result.monthlyBaseSalary)}
-              onChange={(e) => setInputs({ ...inputs, customMonthlySalary: Number(e.target.value) || 0 })}
-              className="w-full text-xs font-bold font-mono py-2 px-3 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-rose-500"
-            />
           </div>
         </div>
 
         {/* Results Card */}
-        <div className="bg-slate-50 border border-slate-200/90 rounded-xl p-4 space-y-3">
+        <div data-tour="dismissal-risk-exposure" className="bg-slate-50 border border-slate-200/90 rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between border-b border-slate-200 pb-2">
             <span className="text-[11px] font-bold text-slate-700">Riferimento Normativo Applicato:</span>
             <span className="text-[11px] font-bold text-rose-900 bg-rose-100/80 px-2 py-0.5 rounded">

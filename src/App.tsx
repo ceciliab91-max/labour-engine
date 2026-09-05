@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { CalculationInputs } from './types/payroll';
 import { calculatePayroll } from './utils/payrollEngine';
 import { Header } from './components/Header';
@@ -7,6 +7,7 @@ import { TabLitigation } from './components/TabLitigation';
 import { LegalCopilotDrawer } from './components/LegalCopilotDrawer';
 import { SettlementCalculatorModal } from './components/SettlementCalculatorModal';
 import { ExportLegalModal } from './components/ExportLegalModal';
+import { OnboardingTour } from './components/OnboardingTour';
 import { Scale } from 'lucide-react';
 
 const DEFAULT_INPUTS: CalculationInputs = {
@@ -29,12 +30,36 @@ const DEFAULT_INPUTS: CalculationInputs = {
   customCcnlName: 'CCNL Personalizzato',
 };
 
+const TOUR_STORAGE_KEY = 'legalpay_tour_completed';
+
 export function App() {
   const [inputs, setInputs] = useState<CalculationInputs>(DEFAULT_INPUTS);
   const [activeTab, setActiveTab] = useState<'hiring' | 'litigation'>('hiring');
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isSettlementModalOpen, setIsSettlementModalOpen] = useState(false);
   const [isCopilotOpen, setIsCopilotOpen] = useState(false);
+  const [isTourActive, setIsTourActive] = useState(false);
+
+  // Auto-start tour on first visit
+  useEffect(() => {
+    const isCompleted = localStorage.getItem(TOUR_STORAGE_KEY);
+    if (!isCompleted) {
+      const timer = setTimeout(() => {
+        setIsTourActive(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleStartTour = () => {
+    setActiveTab('hiring');
+    setIsTourActive(true);
+  };
+
+  const handleCloseTour = () => {
+    setIsTourActive(false);
+    localStorage.setItem(TOUR_STORAGE_KEY, 'true');
+  };
 
   const handleInputChange = (updated: Partial<CalculationInputs>) => {
     setInputs((prev) => ({ ...prev, ...updated }));
@@ -57,6 +82,7 @@ export function App() {
         onOpenCopilot={() => setIsCopilotOpen(true)}
         onOpenExportModal={() => setIsExportModalOpen(true)}
         onReset={handleReset}
+        onStartTour={handleStartTour}
       />
 
       {/* Main Spacious Container */}
@@ -97,6 +123,14 @@ export function App() {
         inputs={inputs}
       />
 
+      {/* Onboarding Interactive Tour */}
+      <OnboardingTour
+        isOpen={isTourActive}
+        onClose={handleCloseTour}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -116,3 +150,4 @@ export function App() {
 }
 
 export default App;
+

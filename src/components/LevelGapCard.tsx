@@ -22,7 +22,7 @@ export const LevelGapCard: React.FC<LevelGapCardProps> = ({
   const gapResult = calculateLevelGap(actualMonthlyPay, requiredMonthlyBase, result.months);
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden">
+    <div data-tour="level-gap-card" className="bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden">
       {/* Header */}
       <div className="bg-slate-50/80 px-4 sm:px-5 py-3 border-b border-slate-200/80 flex items-center justify-between">
         <div className="flex items-center space-x-2">

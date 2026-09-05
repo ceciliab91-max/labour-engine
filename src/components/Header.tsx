@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scale, ShieldCheck, FileText, RefreshCw, Bot, Briefcase, Gavel } from 'lucide-react';
+import { Scale, ShieldCheck, FileText, RefreshCw, Bot, Briefcase, Gavel, HelpCircle } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: 'hiring' | 'litigation';
@@ -7,6 +7,7 @@ interface HeaderProps {
   onOpenCopilot: () => void;
   onOpenExportModal: () => void;
   onReset: () => void;
+  onStartTour?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -15,6 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCopilot,
   onOpenExportModal,
   onReset,
+  onStartTour,
 }) => {
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
@@ -42,7 +44,10 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Central Two-Tab Navigation */}
-          <div className="flex items-center p-1 bg-slate-100/90 rounded-xl border border-slate-200 text-xs font-bold self-center lg:self-auto">
+          <div
+            data-tour="header-tabs"
+            className="flex items-center p-1 bg-slate-100/90 rounded-xl border border-slate-200 text-xs font-bold self-center lg:self-auto"
+          >
             <button
               type="button"
               onClick={() => onTabChange('hiring')}
@@ -71,7 +76,21 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center space-x-2 shrink-0 justify-end">
+          <div
+            data-tour="copilot-export-actions"
+            className="flex items-center space-x-2 shrink-0 justify-end"
+          >
+            {onStartTour && (
+              <button
+                onClick={onStartTour}
+                className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/90 hover:bg-emerald-100 transition-all cursor-pointer shadow-2xs"
+                title="Riavvia il Tutorial Guidato Interattivo"
+              >
+                <HelpCircle className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+                Tutorial
+              </button>
+            )}
+
             <button
               onClick={onOpenCopilot}
               className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xs transition-all cursor-pointer border border-slate-800"
@@ -101,3 +120,4 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+
