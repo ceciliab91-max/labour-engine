@@ -27,7 +27,11 @@ export function calculatePayroll(inputs: CalculationInputs): PayrollResult {
     otherDependents,
     iseeTier,
     customMonthlyBase,
+    workCoefficient = 1,
+    contractType = 'full-time',
   } = inputs;
+
+  const coeff = contractType === 'part-time' && workCoefficient ? workCoefficient : 1;
 
   let monthlyBasePay = 0;
   let monthlySuperminimo = superminimoMonthly || 0;
@@ -35,7 +39,7 @@ export function calculatePayroll(inputs: CalculationInputs): PayrollResult {
   let ral = 0;
 
   if (mode === 'ral') {
-    ral = Math.max(12000, inputRal);
+    ral = Math.max(12000, inputRal) * coeff;
     totalMonthlyGross = ral / months;
     monthlyBasePay = totalMonthlyGross - monthlySuperminimo;
     if (monthlyBasePay < 0) {
@@ -45,11 +49,11 @@ export function calculatePayroll(inputs: CalculationInputs): PayrollResult {
   } else {
     // Mode 'ccnl'
     if (ccnlId === 'custom') {
-      monthlyBasePay = Math.max(0, customMonthlyBase || 0);
+      monthlyBasePay = Math.max(0, customMonthlyBase || 0) * coeff;
     } else {
       const selectedCategory = CCNL_DATASET.find((c) => c.id === ccnlId) || CCNL_DATASET[0];
       const selectedLevel = selectedCategory.levels.find((l) => l.id === ccnlLevelId) || selectedCategory.levels[0];
-      monthlyBasePay = selectedLevel.monthlyBasePay;
+      monthlyBasePay = selectedLevel.monthlyBasePay * coeff;
     }
     totalMonthlyGross = monthlyBasePay + monthlySuperminimo;
     ral = totalMonthlyGross * months;

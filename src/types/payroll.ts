@@ -33,6 +33,17 @@ export interface ComuneOption {
   rate: number;
 }
 
+export type ContractType = 'full-time' | 'part-time';
+export type PartTimeType = 'orizzontale' | 'verticale' | 'misto';
+
+export interface LabourScheduleData {
+  contractType: ContractType;
+  partTimeType: PartTimeType | null;
+  weeklyHours: number;
+  percentage: number;
+  coefficient: number;
+}
+
 export interface CalculationInputs {
   mode: InputMode;
   ral: number;
@@ -51,6 +62,11 @@ export interface CalculationInputs {
   iseeTier: 'base' | 'medium' | 'low';
   customMonthlyBase: number;
   customCcnlName: string;
+  contractType?: ContractType;
+  partTimeType?: PartTimeType | null;
+  weeklyHours?: number;
+  partTimePercentage?: number;
+  workCoefficient?: number;
 }
 
 export interface PayrollResult {

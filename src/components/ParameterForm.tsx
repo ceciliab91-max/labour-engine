@@ -2,6 +2,8 @@ import React from 'react';
 import type { CalculationInputs } from '../types/payroll';
 import { CCNL_DATASET } from '../data/ccnlData';
 import { REGIONS, COMUNI } from '../data/geoData';
+import { LabourSchedule } from './LabourSchedule';
+import type { LabourScheduleData } from './LabourSchedule';
 import {
   Briefcase,
   DollarSign,
@@ -24,6 +26,16 @@ export const ParameterForm: React.FC<ParameterFormProps> = ({
 }) => {
   const currentCategory =
     CCNL_DATASET.find((c) => c.id === inputs.ccnlId) || CCNL_DATASET[0];
+
+  const handleScheduleChange = (schedule: LabourScheduleData) => {
+    onChange({
+      contractType: schedule.contractType,
+      partTimeType: schedule.partTimeType,
+      weeklyHours: schedule.weeklyHours,
+      partTimePercentage: schedule.percentage,
+      workCoefficient: schedule.coefficient,
+    });
+  };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCcnlId = e.target.value;
@@ -316,7 +328,19 @@ export const ParameterForm: React.FC<ParameterFormProps> = ({
         </div>
       </div>
 
-      {/* CARD 2: SELEZIONE GEOGRAFICA & ADDIZIONALI */}
+      {/* CARD 2: ORARIO DI LAVORO & GESTIONE PART-TIME */}
+      <LabourSchedule
+        initialData={{
+          contractType: inputs.contractType || 'full-time',
+          partTimeType: inputs.partTimeType || 'orizzontale',
+          weeklyHours: inputs.weeklyHours !== undefined ? inputs.weeklyHours : 40,
+          percentage: inputs.partTimePercentage !== undefined ? inputs.partTimePercentage : 100,
+          coefficient: inputs.workCoefficient !== undefined ? inputs.workCoefficient : 1.0,
+        }}
+        onChange={handleScheduleChange}
+      />
+
+      {/* CARD 3: SELEZIONE GEOGRAFICA & ADDIZIONALI */}
       <div className="bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden">
         <div className="bg-slate-50/80 px-4 py-3 border-b border-slate-200/80 flex items-center justify-between">
           <div className="flex items-center space-x-2">

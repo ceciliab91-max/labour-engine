@@ -27,9 +27,18 @@ export const TOUR_STEPS: TourStep[] = [
     placement: 'right',
   },
   {
+    id: 'labour-schedule-card',
+    target: '#labour-schedule-card',
+    title: '3. Orario di Lavoro & Gestione Part-Time',
+    description:
+      'Configura il tipo di contratto per il calcolo dei costi. Se scegli il Part-time, puoi inserire indifferentemente le ore settimanali o la percentuale: il sistema le sincronizza in automatico (su base 40h) e applica il coefficiente di riproporzionamento sui costi aziendali.',
+    requiredTab: 'hiring',
+    placement: 'bottom',
+  },
+  {
     id: 'kpi-cost-summary',
     target: '[data-tour="kpi-cost-summary"]',
-    title: '3. KPI di Sintesi & Ripartizione Grafica Costo Azienda',
+    title: '4. KPI di Sintesi & Ripartizione Grafica Costo Azienda',
     description:
       'Visualizza in tempo reale il Netto Mensile in busta paga, il Costo Aziendale Totale, il risparmio derivante dagli sgravi e la scomposizione grafica del cuneo fiscale (INPS, IRPEF, TFR).',
     requiredTab: 'hiring',
@@ -38,7 +47,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'analytical-table',
     target: '[data-tour="analytical-table"]',
-    title: '4. Prospetto Analitico Dettagliato (Voce per Voce)',
+    title: '5. Prospetto Analitico Dettagliato (Voce per Voce)',
     description:
       'Esamina nel dettaglio il calcolo mensile e annuale: imponibile INPS, ritenute lavoratore, IRPEF per scaglioni 2026, addizionali regionali/comunali, detrazioni e TFR maturato.',
     requiredTab: 'hiring',
@@ -47,7 +56,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'litigation-banner',
     target: '[data-tour="litigation-banner"]',
-    title: '5. Banner Cessazioni & Transazione Art. 2113 c.c.',
+    title: '6. Banner Cessazioni & Transazione Art. 2113 c.c.',
     description:
       'Questa sezione valuta preventivamente il rischio di contenzioso giuslavoristico, calcola le indennità di licenziamento e permette di simulare accordi conciliativi tombali.',
     requiredTab: 'litigation',
@@ -56,7 +65,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'level-gap-card',
     target: '[data-tour="level-gap-card"]',
-    title: '6. Verifica Congruità & Sottoinquadramento (Art. 2103 c.c.)',
+    title: '7. Verifica Congruità & Sottoinquadramento (Art. 2103 c.c.)',
     description:
       'Mostra il confronto tra il minimo tabellare del CCNL e la retribuzione reale erogata. Il badge verde certifica la presenza di superminimo a copertura dei minimi contrattuali, escludendo rischi di arretrati retributivi.',
     requiredTab: 'litigation',
@@ -65,7 +74,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'dismissal-parameters',
     target: '[data-tour="dismissal-parameters"]',
-    title: '7. Parametri Normativi Licenziamento (Jobs Act vs Art. 18)',
+    title: '8. Parametri Normativi Licenziamento (Jobs Act vs Art. 18)',
     description:
       'La piattaforma adatta il calcolo in base al regime applicabile: Jobs Act (D.Lgs. 23/2015) o Art. 18 L. 300/1970, modulando le tutele per soglia dimensionale (sopra/sotto 15 dipendenti).',
     requiredTab: 'litigation',
@@ -74,7 +83,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'dismissal-risk-exposure',
     target: '[data-tour="dismissal-risk-exposure"]',
-    title: '8. Esposizione Risarcitoria & Mancato Preavviso (Risk Engine)',
+    title: '9. Esposizione Risarcitoria & Mancato Preavviso (Risk Engine)',
     description:
       'Spiega la quantificazione del rischio economico: somma il risarcimento stimato (adeguato alle sentenze Corte Cost. 194/2018 e 150/2020) all\'indennità sostitutiva del preavviso contrattuale non goduto.',
     requiredTab: 'litigation',
@@ -83,7 +92,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'legal-insights',
     target: '[data-tour="legal-insights"]',
-    title: '9. Insights Giuslavoristici & Regime Fiscale (Art. 17 TUIR)',
+    title: '10. Insights Giuslavoristici & Regime Fiscale (Art. 17 TUIR)',
     description:
       'Fornisce indicazioni operative per la conciliatione in sede protetta (ITL/sindacale), ricordando il beneficio della tassazione separata per gli incentivi all\'esodo e la gestione dell\'assorbibilità del superminimo.',
     requiredTab: 'litigation',
@@ -92,7 +101,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     id: 'copilot-export-actions',
     target: '[data-tour="copilot-export-actions"]',
-    title: '10. Legal Copilot IA & Esportazione Parere Tecnico',
+    title: '11. Legal Copilot IA & Esportazione Parere Tecnico',
     description:
       'Utilizza l\'assistente legale guidato da IA per quesiti giuslavoristici e genera report dettagliati in formato PDF o Word personalizzati per aziende e clienti.',
     placement: 'bottom',
