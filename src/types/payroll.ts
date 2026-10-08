@@ -67,6 +67,7 @@ export interface CalculationInputs {
   weeklyHours?: number;
   partTimePercentage?: number;
   workCoefficient?: number;
+  partTimeFactor?: number;
 }
 
 export interface PayrollResult {

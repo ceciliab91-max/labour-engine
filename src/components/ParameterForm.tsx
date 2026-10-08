@@ -34,6 +34,7 @@ export const ParameterForm: React.FC<ParameterFormProps> = ({
       weeklyHours: schedule.weeklyHours,
       partTimePercentage: schedule.percentage,
       workCoefficient: schedule.coefficient,
+      partTimeFactor: schedule.coefficient,
     });
   };
 

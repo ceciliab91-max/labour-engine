@@ -6,6 +6,7 @@ import type {
   DismissalInputs,
   DismissalResult,
   LevelGapResult,
+  ContractType,
 } from '../types/payroll';
 import { CCNL_DATASET } from '../data/ccnlData';
 import { REGIONS, COMUNI } from '../data/geoData';
@@ -350,9 +351,13 @@ export function calculateDismissalIndemnity(
 export function calculateLevelGap(
   actualMonthlyPay: number,
   requiredLevelMonthlyPay: number,
-  months: number
+  months: number,
+  contractType: ContractType = 'full-time',
+  partTimeFactor: number = 1
 ): LevelGapResult {
-  const monthlyDelta = actualMonthlyPay - requiredLevelMonthlyPay;
+  const minimoTabellareRiproprozionato =
+    requiredLevelMonthlyPay * (contractType === 'part-time' ? partTimeFactor : 1);
+  const monthlyDelta = actualMonthlyPay - minimoTabellareRiproprozionato;
   const yearlyDelta = monthlyDelta * months;
   const fiveYearPrescriptionDelta = yearlyDelta * 5;
 
@@ -365,7 +370,7 @@ export function calculateLevelGap(
 
   return {
     actualMonthlyPay,
-    requiredLevelMonthlyPay,
+    requiredLevelMonthlyPay: minimoTabellareRiproprozionato,
     monthlyDelta,
     yearlyDelta,
     fiveYearPrescriptionDelta,

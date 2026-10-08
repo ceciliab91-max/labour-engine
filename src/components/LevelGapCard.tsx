@@ -16,10 +16,20 @@ export const LevelGapCard: React.FC<LevelGapCardProps> = ({
   const currentCategory = CCNL_DATASET.find((c) => c.id === inputs.ccnlId) || CCNL_DATASET[0];
   const currentLevel = currentCategory.levels.find((l) => l.id === inputs.ccnlLevelId) || currentCategory.levels[0];
 
-  const requiredMonthlyBase = inputs.ccnlId === 'custom' ? inputs.customMonthlyBase || 1800 : currentLevel.monthlyBasePay;
+  const minimoTabellareBase = inputs.ccnlId === 'custom' ? inputs.customMonthlyBase || 1800 : currentLevel.monthlyBasePay;
+  const contractType = inputs.contractType || 'full-time';
+  const partTimeFactor = inputs.partTimeFactor ?? inputs.workCoefficient ?? 1;
+
+  const minimoTabellareRiproprozionato = minimoTabellareBase * (contractType === 'part-time' ? partTimeFactor : 1);
   const actualMonthlyPay = result.totalMonthlyGross;
 
-  const gapResult = calculateLevelGap(actualMonthlyPay, requiredMonthlyBase, result.months);
+  const gapResult = calculateLevelGap(
+    actualMonthlyPay,
+    minimoTabellareBase,
+    result.months,
+    contractType,
+    partTimeFactor
+  );
 
   return (
     <div data-tour="level-gap-card" className="bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden">
@@ -58,17 +68,22 @@ export const LevelGapCard: React.FC<LevelGapCardProps> = ({
           <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
             <span className="text-[10px] text-slate-400 font-bold uppercase">Minimo Tabellare Spettante</span>
             <div className="text-sm font-extrabold font-mono text-slate-900 mt-0.5">
-              {requiredMonthlyBase.toLocaleString('it-IT')} €/mese
+              {minimoTabellareRiproprozionato.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €/mese
             </div>
             <p className="text-[10px] text-slate-500 mt-0.5">
               Livello: <strong className="text-slate-800">{currentLevel.name}</strong> ({currentCategory.code})
+              {contractType === 'part-time' && (
+                <span className="block text-[10px] text-indigo-600 font-semibold mt-0.5">
+                  Riproprozionato Part-time {(partTimeFactor * 100).toFixed(1)}% (Base Full-time: {minimoTabellareBase.toLocaleString('it-IT')} €)
+                </span>
+              )}
             </p>
           </div>
 
           <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
             <span className="text-[10px] text-slate-400 font-bold uppercase">Retribuzione Effettiva Erogata</span>
             <div className="text-sm font-extrabold font-mono text-slate-900 mt-0.5">
-              {actualMonthlyPay.toLocaleString('it-IT')} €/mese
+              {actualMonthlyPay.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €/mese
             </div>
             <p className="text-[10px] text-slate-500 mt-0.5">
               RAL Totale: <strong className="text-slate-800">{Math.round(result.ral).toLocaleString('it-IT')} €/anno</strong>
@@ -128,7 +143,13 @@ export const LevelGapCard: React.FC<LevelGapCardProps> = ({
             </div>
 
             <p className="text-[11px] text-emerald-900">
-              La retribuzione corrisposta copre interamente i minimi contrattuali di settore ed eroga un surplus lordo di <strong className="font-mono">+{Math.round(gapResult.yearlyDelta).toLocaleString('it-IT')} €/anno</strong> a titolo di superminimo o elemento retributivo individuale.
+              {Math.abs(gapResult.monthlyDelta) < 1 ? (
+                'La retribuzione corrisposta coincide esattamente con il minimo contrattuale spettante ex art. 36 Cost.'
+              ) : (
+                <>
+                  La retribuzione corrisposta copre interamente i minimi contrattuali di settore ed eroga un surplus lordo di <strong className="font-mono">+{Math.round(gapResult.yearlyDelta).toLocaleString('it-IT')} €/anno</strong> a titolo di superminimo o elemento retributivo individuale.
+                </>
+              )}
             </p>
           </div>
         )}

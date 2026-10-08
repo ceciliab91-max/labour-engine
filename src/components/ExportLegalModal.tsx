@@ -34,8 +34,17 @@ export const ExportLegalModal: React.FC<ExportLegalModalProps> = ({
   const currentRegion = REGIONS.find((r) => r.code === inputs.regionCode) || REGIONS[0];
   const currentComune = COMUNI.find((c) => c.code === inputs.comuneCode) || COMUNI[0];
 
-  const requiredMonthlyBase = inputs.ccnlId === 'custom' ? inputs.customMonthlyBase || 1800 : currentLevel.monthlyBasePay;
-  const levelGap = calculateLevelGap(result.totalMonthlyGross, requiredMonthlyBase, result.months);
+  const minimoTabellareBase = inputs.ccnlId === 'custom' ? inputs.customMonthlyBase || 1800 : currentLevel.monthlyBasePay;
+  const contractType = inputs.contractType || 'full-time';
+  const partTimeFactor = inputs.partTimeFactor ?? inputs.workCoefficient ?? 1;
+
+  const levelGap = calculateLevelGap(
+    result.totalMonthlyGross,
+    minimoTabellareBase,
+    result.months,
+    contractType,
+    partTimeFactor
+  );
   const dismissalEstimate = calculateDismissalIndemnity(
     { hiringEra: 'post_2015', companySize: 'large', seniorityYears: 5, noticeMonths: 2 },
     result.totalMonthlyGross
@@ -71,13 +80,14 @@ Data: ${new Date().toLocaleDateString('it-IT')}
 1. INQUADRAMENTO CONTRATTUALE E RETRIBUZIONE:
 - Contratto Collettivo (CCNL): ${ccnlNameDisplay}
 - Mensilità Contrattuali: ${result.months}
+- Tipologia Orario: ${contractType === 'part-time' ? `Part-time ${(partTimeFactor * 100).toFixed(1)}%` : 'Full-time'}
 - Retribuzione Annua Lorda (RAL): € ${Math.round(result.ral).toLocaleString('it-IT')}
 - Paga Base Mensile: € ${result.monthlyBasePay.toFixed(2)}
 - Superminimo Mensile: € ${result.monthlySuperminimo.toFixed(2)} (${inputs.superminimoType === 'absorbable' ? 'Assorbibile ex art. 2077 c.c.' : 'Ad personam non assorbibile'})
 - Sede Lavorativa: Comune di ${currentComune.name} (${currentRegion.name})
 
 2. VERIFICA CONGRUITÀ RETRIBUTIVA & DIFFERENZE (ART. 36 COST.):
-- Minimo Tabellare di Diritto: € ${requiredMonthlyBase.toFixed(2)} /mese
+- Minimo Tabellare di Diritto: € ${levelGap.requiredLevelMonthlyPay.toFixed(2)} /mese ${contractType === 'part-time' ? `(Riproprozionato Part-time ${(partTimeFactor * 100).toFixed(1)}%)` : ''}
 - Retribuzione Effettivamente Corrisposta: € ${result.totalMonthlyGross.toFixed(2)} /mese
 - Esito Congruità: ${levelGap.status === 'underpaid_sottoinquadramento' ? `SOTTO-INQUADRAMENTO RETRIBUTIVO (-€ ${Math.abs(Math.round(levelGap.monthlyDelta))} /mese | Credito 5 Anni: € ${Math.abs(Math.round(levelGap.fiveYearPrescriptionDelta)).toLocaleString('it-IT')})` : `Retribuzione Conforme / Superminimo (+€ ${Math.round(levelGap.monthlyDelta)} /mese)`}
 
